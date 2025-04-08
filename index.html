@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCTC - Twitch Minecraft Plugin</title>
+    <style>
+        body {
+            transition: background 0.3s ease;
+        }
+        .keyword-card {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        :root {
+            --primary: #9147ff;
+            --dark-bg: #0e0e10;
+            --card-bg: #18181b;
+            --text: #efeff1;
+            --accent: #772ce8;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 1rem;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        
+        .keywords-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .keyword-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.2s;
+        }
+        
+        .keyword-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .keyword-name {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .keyword-desc {
+            opacity: 0.9;
+        }
+        
+        .info-section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--accent);
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .keywords-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MCTC Plugin</h1>
+            <p class="subtitle">Twitch Chat steuert Minecraft Events</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="keywordSearch" placeholder="Keyword suchen..." class="search-input">
+        </div>
+        
+        <style>
+        .search-container {
+            margin: 2rem 0;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--primary);
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 1rem;
+        }
+        </style>
+        
+        <script>
+        document.getElementById('keywordSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            document.querySelectorAll('.keyword-card').forEach(card => {
+                const keyword = card.querySelector('.keyword-name').textContent.toLowerCase();
+                const desc = card.querySelector('.keyword-desc').textContent.toLowerCase();
+                card.style.display = (keyword.includes(searchTerm) || desc.includes(searchTerm)) 
+                    ? 'block' 
+                    : 'none';
+            });
+        });
+        </script>
+        
+        <div class="info-section">
+            <h2>Über MCTC</h2>
+            <p>Ein von Alex entwickeltes Plugin, mit dem der Twitch Chat durch Keywords Events im Spiel auslösen kann. Schreibe ein Keyword nach dem Ablauf des Cooldowns in den Chat und schau dir Devoo's Reaktion darauf an!</p>
+        </div>
+        
+        <button id="themeToggle" class="theme-btn">Light Mode</button>
+
+        <style>
+        .theme-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 75px;
+            height: 75px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+        </style>
+
+        <script>
+        const themeBtn = document.getElementById('themeToggle');
+        let isDark = true;
+
+        themeBtn.addEventListener('click', () => {
+            isDark = !isDark;
+            document.body.style.setProperty('--dark-bg', isDark ? '#0e0e10' : '#f7f7f8');
+            document.body.style.setProperty('--card-bg', isDark ? '#18181b' : '#ffffff');
+            document.body.style.setProperty('--text', isDark ? '#efeff1' : '#0e0e10');
+            themeBtn.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        });
+        </script>
+
+        <h2>Alle Keywords</h2>
+        <div class="keywords-grid">            
+            <div class="keyword-card">
+                <div class="keyword-name">randomevent</div>
+                <div class="keyword-desc">Random Event passiert zwei mal</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">enderchaos</div>
+                <div class="keyword-desc">Spawnt 4 Endermen</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">mlg</div>
+                <div class="keyword-desc">Teleportiert Devoo 23 Blöcke nach oben</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">evoker</div>
+                <div class="keyword-desc">Spawnt Evoker</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">enderdragon</div>
+                <div class="keyword-desc">Spawnt Ender Drachen</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">tnt</div>
+                <div class="keyword-desc">Spawnt TNT 8 Blöcke über Devoo</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">irongolem</div>
+                <div class="keyword-desc">Spawnt Eisengolem</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">anvil</div>
+                <div class="keyword-desc">Spawnt Amboss 7 Blöcke über Devoo</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">hotfeet</div>
+                <div class="keyword-desc">Setzt 3x3 Feuer unter Devoo</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">blitz</div>
+                <div class="keyword-desc">Lässt einen Blitz einschlagen</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">nausea</div>
+                <div class="keyword-desc">Gibt Devoo Übelkeit für 30 Sekunden</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">regeneration</div>
+                <div class="keyword-desc">Gibt Devoo Regeneration 2 für 30 Sekunden</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">blindness</div>
+                <div class="keyword-desc">Gibt Devoo Blindheit für 30 Sekunden</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">levitate</div>
+                <div class="keyword-desc">Gibt Devoo Schebekraft 2 für 10 Sekunden</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">jumpboost</div>
+                <div class="keyword-desc">Gibt Devoo Sprungkraft 8 für 30 Sekunden</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">speed/speedy</div>
+                <div class="keyword-desc">Gibt Devoo Schnelligkeit 4 für 30 Sekunden</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">hotswap</div>
+                <div class="keyword-desc">Mischt Devoo's Hotbar durch</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">mobswap</div>
+                <div class="keyword-desc">Teleportiert Devoo zu einem zufälligen Mob</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">explode</div>
+                <div class="keyword-desc">Spawnt Explosion ohne Schaden</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">slap</div>
+                <div class="keyword-desc">Knockback nach hinten</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">rain</div>
+                <div class="keyword-desc">Lässt es regnen</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">chickenrain</div>
+                <div class="keyword-desc">Hühner regnen vom Himmel</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">enderpearl</div>
+                <div class="keyword-desc">Devoo wirft eine Enderperle</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">firework</div>
+                <div class="keyword-desc">Spawnt Feuerwerksrakete</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">zombies</div>
+                <div class="keyword-desc">10 Zombies spawnen bei Devoo</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">dropitem</div>
+                <div class="keyword-desc">5 random Items werden gedroppt</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">spin</div>
+                <div class="keyword-desc">10 Sekunden lang drehen</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">icefloor</div>
+                <div class="keyword-desc">Setzt 3x3 Eis Platform unter Devoo</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">nocontrols</div>
+                <div class="keyword-desc">Devoo kann sich 15 Sekunden lang nicht bewegen</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">invisiblemobs</div>
+                <div class="keyword-desc">Gibt jedem Mob 30 Sekunden lang Unsichtbarkeit</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">heal</div>
+                <div class="keyword-desc">Absorbtion 10 für 2 Minuten</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">lootdrop</div>
+                <div class="keyword-desc">3 zufällige Items spawnen</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">light</div>
+                <div class="keyword-desc">Leuchten für 60 Sekunden</div>
+            </div>
+            
+            <div class="keyword-card">
+                <div class="keyword-name">hole</div>
+                <div class="keyword-desc">Unter Devoo werden 4 Blöcke entfernt</div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>MCTC Plugin entwickelt von Alex | <a href="https://github.com/Alex1-0/mctc" style="color: var(--primary);">GitHub</a></p>
+        </footer>
+    </div>
+</body>
+</html>
